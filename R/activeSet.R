@@ -1,16 +1,47 @@
 #active set methods for different solver
 
 
-activeSet <- function(z, isomat, mySolver = lsSolver, ups = 1e-12, check = TRUE, ...) 
+activeSet <- function(isomat, mySolver = "LS", x0 = NULL, ups = 1e-12, check = TRUE, maxiter = 100, ...) 
 {
-  x <- z
   a <- isomat                      #matrix with order restrictions
+  if (ncol(isomat) != 2) stop("isomat must have 2 columns!")
+  
   extra <- list(...)
-  n <- length(x)
-  xold <- x                        #predictor values
+  if (length(x0) == 0) x0 <- rep(0,max(isomat))
+   
+  n <- length(x0)
+  xold <- x0                       #starting values
+  a <- isomat[,c(2,1)]
   ax <- aTx(a, xold)               #difference between order restrictions
+
+  if (any(ax < 0)) stop("Starting solution not feasible. Ax must be >= 0!")
+
   ia <- is.active(ax, ups = ups)   #which constraints are active 
   iter <- 0
+
+  #--------------- solver specification --------------------
+  mySolverDB <- list()
+  mySolverDB$chebyshev <- mSolver
+  mySolverDB$LS <- lsSolver
+  mySolverDB$L1 <- dSolver
+  mySolverDB$quantile <- pSolver
+  mySolverDB$GLS <- lfSolver
+  mySolverDB$poisson <- sSolver
+  mySolverDB$Lp <- oSolver
+  mySolverDB$asyLS <- aSolver
+  mySolverDB$L1eps <- eSolver
+  mySolverDB$huber <- hSolver
+  mySolverDB$SILF <- iSolver
+
+  if(is.character(mySolver)) {
+      pos <- pmatch(tolower(mySolver),
+                    tolower(names(mySolverDB)))
+      if(is.na(pos))
+          stop(gettextf("Invalid skmeans method '%s'.", mySolver))
+      mySolver <- mySolverDB[[pos]]
+   }
+  #------------ end solver specification -----------------
+
 
   #-------------- start active set iterations ------------------------
   repeat {
@@ -52,9 +83,14 @@ activeSet <- function(z, isomat, mySolver = lsSolver, ups = 1e-12, check = TRUE,
       ia <- sort(c(ia,k[ir]))      #collect active sets
     }
     xold <- xnew                   #end iteration, start new one
+    if (iter == maxiter) {
+      warning("Maximum number of iterations reached!")
+      break()
+    }
+    
   }
   #---------------------- end active set iterations --------------------
-  
+  options(warn = 0)
 
   lup <- rep(0, length(ay)) 
   lup[ia] <- lbd                   #final vector of lambdas (0 where there was no active set)
@@ -67,7 +103,7 @@ activeSet <- function(z, isomat, mySolver = lsSolver, ups = 1e-12, check = TRUE,
     ck <- NULL
   }
 
-  result <- list(x = y, z = x, lambda = lup, fval = fy, constr.val = ay, Alambda = hl, 
+  result <- list(x = y, y = extra$y, lambda = lup, fval = fy, constr.val = ay, Alambda = hl, 
   gradient = gy, isocheck = ck, niter = iter, call = match.call())
   class(result) <- "activeset"
   result
