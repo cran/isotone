@@ -1,4 +1,4 @@
-dd6bb566beb92ffc50cc2ac53174c112 *DESCRIPTION
+c8eb25fac813c780456c27800b447fc5 *DESCRIPTION
 50907fd054e26256df85c468d9ec01db *NAMESPACE
 15a2b3dda20364daab3c85a878b2ef3c *R/aSolver.R
 1dd40ce140218d43fdef1042bc92702e *R/activeSet.R
@@ -22,15 +22,15 @@ cd9d4e6c3a727b148f23bffae3b5fd6c *R/pSolver.R
 410becd7c95109c593ec7d705cf126e5 *R/summary.activeset.R
 730e3dec7b350775058ddd1e99817878 *R/weighted.fractile.R
 14108528b0891387785fb8792af3cc67 *R/weighted.median.R
-0dbc6e5ca2787681ec715a2911deca27 *build/vignette.rds
+567a05f18c594b8ab41d8a2b503c23a4 *build/vignette.rds
 0c3a6c173706821d3298670b8777d69d *data/mendota.rda
 fd316434c4a2b727f9c741927ccb4226 *data/pituitary.rda
 863ebb0b9b38ba50d7c74b126496857e *data/posturo.rda
-9bcf9ba0ebd540556ec6da9e7449f88a *inst/CITATION
+4927683cf4a9dc5c309aedeccb7645d9 *inst/CITATION
 2724fc383d05ad65eaa7b0ada1d91bf8 *inst/COPYRIGHTS
 6f1016b0a27600a20cb5cec822f0fda3 *inst/doc/isotone.R
 d77e93315a453d6e25680f3b30530055 *inst/doc/isotone.Rnw
-94ad0bbb907ab9131bd76aeffbd5c47e *inst/doc/isotone.pdf
+9f0020de9cf62892be84390ffce1b62b *inst/doc/isotone.pdf
 7f9ce7a6c82927b6d35fe49653d660ac *man/aSolver.Rd
 662f1c9dec7f5c4bf9511d651db91675 *man/activeSet.Rd
 45ee26190cad2abd233f1df8dba79086 *man/dSolver.Rd
